@@ -29,7 +29,7 @@
             return 54000 / number;
         }
 
-        function getInitialCounterValue() {
+        function getInitialCounterValue(number) {
             const now = new Date();
             const startHour = 6;
             const endHour = 21;
@@ -40,7 +40,8 @@
             const startInMinutes = startHour * 60;
             const elapsedMinutes = currentTimeInMinutes - startInMinutes;
             const elapsedSeconds = elapsedMinutes * 60 + now.getSeconds();
-            const initialValue = elapsedSeconds * 0.001;
+            const totalActiveSeconds = (endHour - startHour) * 3600;
+            const initialValue = (elapsedSeconds / totalActiveSeconds) * number;
             return initialValue.toFixed(3);
         }
 
@@ -48,7 +49,7 @@
             const numberInput = document.getElementById('numberInput');
             let number = parseFloat(numberInput.value);
             let millisecondsPerStep = getMillisecondsPerStep(number);
-            let counterValue = parseFloat(getInitialCounterValue());
+            let counterValue = parseFloat(getInitialCounterValue(number));
 
             const updateCounter = () => {
                 const now = new Date();
@@ -65,11 +66,14 @@
             numberInput.addEventListener('change', () => {
                 number = parseFloat(numberInput.value);
                 millisecondsPerStep = getMillisecondsPerStep(number);
+                counterValue = parseFloat(getInitialCounterValue(number));
+                document.getElementById('counter').innerText = counterValue.toFixed(3);
             });
         }
 
         document.addEventListener('DOMContentLoaded', (event) => {
-            document.getElementById('counter').innerText = getInitialCounterValue();
+            const number = parseFloat(document.getElementById('numberInput').value);
+            document.getElementById('counter').innerText = getInitialCounterValue(number);
             startCounter();
         });
     </script>
