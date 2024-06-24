@@ -40,7 +40,7 @@
             const startInMinutes = startHour * 60;
             const elapsedMinutes = currentTimeInMinutes - startInMinutes;
             const elapsedSeconds = elapsedMinutes * 60 + now.getSeconds();
-            const initialValue = elapsedSeconds * 0.01;
+            const initialValue = elapsedSeconds * 0.001;
             return initialValue.toFixed(2);
         }
 
