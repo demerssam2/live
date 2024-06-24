@@ -22,11 +22,11 @@
     <h1>Live Counter</h1>
     <label for="numberInput">Enter a number:</label>
     <input type="number" id="numberInput" value="182">
-    <div id="counter">0.00</div>
+    <div id="counter">0.000</div>
 
     <script>
         function getMillisecondsPerStep(number) {
-            return 54000000 / number;
+            return 54000 / number;
         }
 
         function getInitialCounterValue() {
@@ -41,7 +41,7 @@
             const elapsedMinutes = currentTimeInMinutes - startInMinutes;
             const elapsedSeconds = elapsedMinutes * 60 + now.getSeconds();
             const initialValue = elapsedSeconds * 0.001;
-            return initialValue.toFixed(2);
+            return initialValue.toFixed(3);
         }
 
         function startCounter() {
@@ -55,8 +55,8 @@
                 const startHour = 6;
                 const endHour = 21;
                 if (now.getHours() >= startHour && now.getHours() < endHour) {
-                    counterValue += 0.01;
-                    document.getElementById('counter').innerText = counterValue.toFixed(2);
+                    counterValue += 0.001;
+                    document.getElementById('counter').innerText = counterValue.toFixed(3);
                 }
             }
 
