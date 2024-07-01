@@ -4,151 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Counter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-        }
-        .container h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .input-group {
-            margin: 10px 0;
-        }
-        .input-group input, .input-group button {
-            font-size: 1em;
-            padding: 10px;
-        }
-        .counter-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .counter-group button {
-            font-size: 1.5em;
-            margin: 0 10px;
-        }
-        .counter-group span {
-            font-size: 2em;
-            margin: 0 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>Live Counter</h1>
         
         <div class="input-group">
-            <label for="number">Enter a number:</label>
-            <input type="number" id="number" value="182" step="any">
+            <label for="numberInput">Enter a number:</label>
+            <input type="number" id="numberInput" value="182">
         </div>
-
+        
         <div class="input-group">
-            <label for="start-time">Start Date & Time:</label>
-            <input type="datetime-local" id="start-time">
+            <label for="startDateTime">Start Date & Time:</label>
+            <input type="datetime-local" id="startDateTime">
         </div>
-
+        
         <div class="input-group">
-            <label for="end-time">End Date & Time:</label>
-            <input type="datetime-local" id="end-time">
-        </div>
-
-        <div class="counter-group">
-            <button id="decrement">-</button>
-            <span id="static-number">0</span>
-            <button id="increment">+</button>
+            <label for="endDateTime">End Date & Time:</label>
+            <input type="datetime-local" id="endDateTime">
         </div>
         
         <div class="counter-group">
-            <span id="counter-value">0.00</span>
+            <button id="decreaseButton">-</button>
+            <span id="staticNumber">0</span>
+            <button id="increaseButton">+</button>
+        </div>
+        
+        <div class="counter-display">
+            <span id="counterValue">0.00</span>
         </div>
     </div>
-
-    <script>
-        const numberInput = document.getElementById('number');
-        const startTimeInput = document.getElementById('start-time');
-        const endTimeInput = document.getElementById('end-time');
-        const staticNumberSpan = document.getElementById('static-number');
-        const counterValueSpan = document.getElementById('counter-value');
-        const decrementButton = document.getElementById('decrement');
-        const incrementButton = document.getElementById('increment');
-
-        let number = parseFloat(numberInput.value);
-        let startTime = new Date().setHours(6, 0, 0, 0);
-        let endTime = new Date().setHours(21, 0, 0, 0);
-        let staticNumber = 0;
-        let timer;
-
-        function getMillisecondsPerStep(number, startTime, endTime) {
-            const activeSeconds = (endTime - startTime) / 1000;
-            return (activeSeconds / number) * 1000;
-        }
-
-        function getInitialCounterValue(number, startTime, endTime) {
-            const now = new Date();
-            if (now < startTime || now >= endTime) {
-                return 0;
-            }
-            const elapsedTime = (now - startTime) / 1000;
-            const activeSeconds = (endTime - startTime) / 1000;
-            return (elapsedTime / activeSeconds) * number;
-        }
-
-        function startCounter() {
-            clearInterval(timer);
-            const millisecondsPerStep = getMillisecondsPerStep(number, startTime, endTime);
-            counterValueSpan.textContent = getInitialCounterValue(number, startTime, endTime).toFixed(2);
-            
-            timer = setInterval(() => {
-                const now = new Date();
-                if (now >= startTime && now < endTime) {
-                    counterValueSpan.textContent = getInitialCounterValue(number, startTime, endTime).toFixed(2);
-                } else {
-                    clearInterval(timer);
-                }
-            }, 10);
-        }
-
-        numberInput.addEventListener('input', () => {
-            number = parseFloat(numberInput.value);
-            startCounter();
-        });
-
-        startTimeInput.addEventListener('input', () => {
-            startTime = new Date(startTimeInput.value);
-            startCounter();
-        });
-
-        endTimeInput.addEventListener('input', () => {
-            endTime = new Date(endTimeInput.value);
-            startCounter();
-        });
-
-        decrementButton.addEventListener('click', () => {
-            staticNumber -= 1;
-            staticNumberSpan.textContent = staticNumber;
-        });
-
-        incrementButton.addEventListener('click', () => {
-            staticNumber += 1;
-            staticNumberSpan.textContent = staticNumber;
-        });
-
-        window.addEventListener('load', () => {
-            startTimeInput.value = new Date(startTime).toISOString().slice(0, 16);
-            endTimeInput.value = new Date(endTime).toISOString().slice(0, 16);
-            startCounter();
-        });
-    </script>
+    
+    <script src="script.js"></script>
 </body>
 </html>
